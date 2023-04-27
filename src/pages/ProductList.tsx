@@ -1,9 +1,12 @@
 import { Button, Card, CardActions, CardContent, ImageListItem, Rating, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export const ProductList = () => {
+  const { id } = useParams();
   const [products, setProducts] = useState([]);
+  
+
 
   const API_URL = "http://localhost:3000";
   const PRODUCT_ENDPOINT = "products";
@@ -32,6 +35,7 @@ export const ProductList = () => {
   };
   const productItemStyle = {
     width: '24%',
+    color: 'black',
     margin: 'auto',
     
   };
@@ -66,7 +70,7 @@ export const ProductList = () => {
         
       </CardContent>
       <CardActions>
-        <Link to="products/id"> <Button>Buy Now</Button> </Link>
+        <Link to={`/products/${product.id}`}><Button>Buy Now</Button> </Link>
       </CardActions>
     </Card>
         </div>

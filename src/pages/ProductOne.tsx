@@ -2,48 +2,60 @@ import { Button, Card, CardActions, CardContent, ImageListItem, Link, Rating, Ty
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-export const ProductOne = () => {
-  const [products, setProducts] = useState([]);
-  const { postSlug } = useParams();
 
+
+const ProductDetail = () => {
   const API_URL = "http://localhost:3000";
   const PRODUCT_ENDPOINT = "products";
+  const { id } = useParams();
 
-  const getProducts = async () => {
-    const response = await fetch(`${API_URL}/${PRODUCT_ENDPOINT}/${postSlug}`);
-    const data = await response.json();
-    setProducts(data);
-
-  
-  };
-
+  const [product, setProduct] = useState({});
+ 
   useEffect(() => {
-    getProducts();
-  }, [postSlug]);
+    const getProduct = async () => {
+      try {
+        const response = await fetch(`${API_URL}/${PRODUCT_ENDPOINT}/${id}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setProduct(data);
+      } catch (error) {
+        console.log(error);
+      }  
+    };
+
+    getProduct();
+  }, [id]);
+
+ 
+  //console.log(product.name);
+  // console.log({id});
   
-  const productStyle = {
+  const productsStyle = {
     color: 'white',
     padding: '5px',
     display: 'flex',
     marginTop: '90px',
-    flexWrap: 'wrap',
-    marginButton: '20px'
+    flexWrap: 'wrap'
   };
-  const titleProducts = {
+  const titleProduct = {
     width: '100%',
-    textAlign: 'center'
+    textAlign: 'center',
+    marginTop: '20px',
   };
-  const productsItemStyle = {
+  const productItemStyle = {
     width: '24%',
+    color: 'black',
     margin: 'auto',
     
   };
-  
+
+
   return (
-    <div style={productStyle}>
-      <h1 style={titleProducts}>Productos</h1>
-      {products.map((product: any) => (
-        <div key={product.id} style={productsItemStyle}>
+    <div style={productsStyle}>
+      <h1 style={titleProduct}>Productos</h1>
+        <div key={product.id} style={productItemStyle}>
    
       <Card sx={{ maxWidth: 345 }} key={product.id}>
       
@@ -69,14 +81,41 @@ export const ProductOne = () => {
         
       </CardContent>
       <CardActions>
-
-      <Link to="about"><Button>Buy Now</Button></Link>
-        
+        <Link to={`/products/${product.id}`}><Button>Buy Now</Button></Link>
       </CardActions>
     </Card>
         </div>
         
-      ))}
+      
     </div>
-  )
-}
+  );
+};
+
+export default ProductDetail;
+
+// export const ProductOne = () => {
+//   const [products, setProducts] = useState([]);
+
+
+//   const API_URL = "http://localhost:3000";
+//   const PRODUCT_ENDPOINT = "products";
+//   const postSlug= useParams(); 
+
+//   const getProducts = async () => {
+//     const response = await fetch(`${API_URL}/${PRODUCT_ENDPOINT}`);
+//     const data = await response.json();
+//     setProducts(data);
+
+  
+//   };
+
+//    useEffect(() => {
+//      getProducts();
+//    }, [postSlug]);
+  
+//   return (
+//     <div>
+//       <h1>Productos</h1>
+//     </div>
+//   )
+// }

@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { Nav } from "./components/nav/Nav";
 import { CssBaseline, Typography } from "@mui/material";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useParams } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { About } from "./pages/About";
 import { ProductList } from "./pages/ProductList";
-import { ProductOne } from "./pages/ProductOne";
+import ProductDetail from "./pages/ProductOne";
 
 
 function App() {
@@ -32,7 +32,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="about" element={<About />} />
         <Route path="products" element={<ProductList/>} />
-        <Route path="products/:productId" element={<ProductOne/>} />
+        <Route path="products/:id" element={<ProductDetail/>} />
       </Routes>
     </div>
   );
